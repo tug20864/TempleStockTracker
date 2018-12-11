@@ -1,5 +1,6 @@
 package com.example.joseph.templestocktracker;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,20 +32,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements getBundle {
+public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> companyName = new ArrayList<String>();
-    ArrayList<String> currentPrice = new ArrayList<String>();
-    ArrayList<String> openingPrice = new ArrayList<String>();
+
     RequestQueue ExampleRequestQueue;
     SwipeAdapter swipeAdapter;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ViewPager viewPager = (ViewPager)findViewById(R.id.view_pager);
+        viewPager = (ViewPager)findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(1);
         swipeAdapter = new SwipeAdapter(getSupportFragmentManager());
         viewPager.setAdapter(swipeAdapter);
@@ -160,39 +160,17 @@ public class MainActivity extends AppCompatActivity implements getBundle {
     }//end write to ticker file
 
 
-    /**
-     * RECIEVE AND SEND BUNDLE FROM LIIST TO DETAILS PAGE
-     */
-        /*
-WHEN ACTIVITY RESUMES
-*/
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //DETERMINE WHO STARTED THIS ACTIVITY
-        try {
-            final String sender = getIntent().getExtras().getString("name");
-
-            //IF ITS THE FRAGMENT THEN RECEIVE DATA
-            if (sender != null) {
-                this.receiveData();
-            }
-        }catch(Exception e){
-
-        }
-    }
 
     /*
 RECEIVE DATA FROM FRAGMENT
  */
-    private void receiveData()
+    public void receiveData(Intent i)
     {
         //RECEIVE DATA VIA INTENT
-        Intent i = getIntent();
+
         String name = i.getStringExtra("name");
         String symbol = i.getStringExtra("symbol");
-        String opening = i.getStringExtra("opening");
+        String opening = i.getStringExtra("openingPrice");
         String currentPrice = i.getStringExtra("currentPrice");
 
         Log.d("RECEIVED FRAG INTENT", ("#############################################"+name+symbol+opening+currentPrice));
@@ -203,43 +181,24 @@ RECEIVE DATA FROM FRAGMENT
         b.putString("opening", opening);
         b.putString("currentPrice", currentPrice);
 
-        Toast toast = Toast.makeText(getApplicationContext(),
-                name+symbol+opening+currentPrice,
-                Toast.LENGTH_SHORT);
-        toast.show();
-
-
-
         //send data to details pane
-        FragmentStockDetails frag = (FragmentStockDetails) swipeAdapter.getItem(2);
+        //FragmentStockDetails frag = (FragmentStockDetails) swipeAdapter.getItem(2);
+        //frag.setArguments(b);
+
+        //viewPager.setCurrentItem(2);
+
+        FragmentStockDetails frag = (FragmentStockDetails) swipeAdapter.getItem( 2 );
+
         frag.setArguments(b);
+
+        viewPager.notifyAll();
+        //call the fragment update method
+
+        frag.getBundle(b);
+
 
     }
 
 
-    public void getBundle(Intent intent){
-
-        //RECEIVE DATA VIA INTENT
-        Intent i = getIntent();
-        String name = i.getStringExtra("name");
-        String symbol = i.getStringExtra("symbol");
-        String opening = i.getStringExtra("opening");
-        String closing = i.getStringExtra("closing");
-
-        Log.d("RECEIVED FRAG INTENT", ("#############################################"+name+symbol+opening+closing));
-
-        Bundle b = new Bundle();
-        b.putString("name", name);
-        b.putString("symbol", symbol);
-        b.putString("opening", opening);
-        b.putString("closing", closing);
-
-
-
-        //send data to details pane
-        FragmentStockDetails frag = (FragmentStockDetails) swipeAdapter.getItem(2);
-        frag.setArguments(b);
-
-    }
 
 }

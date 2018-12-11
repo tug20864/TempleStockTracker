@@ -116,12 +116,15 @@ public class FragmentStockList extends Fragment {
                 intent.putExtra("currentPrice", currentPrice.get(indexLocatiion));
                 intent.putExtra("symbol", symbol.get(indexLocatiion));
 
+                /*
                 Toast toast = Toast.makeText(getActivity(),
                         name.get(indexLocatiion)+symbol.get(indexLocatiion)+openingPrice.get(indexLocatiion)+currentPrice.get(indexLocatiion),
                         Toast.LENGTH_SHORT);
                 toast.show();
+                */
 
-                getActivity().startActivity(intent);
+                MainActivity ma = (MainActivity) getActivity();
+                ma.receiveData(intent);
             }
         });
 

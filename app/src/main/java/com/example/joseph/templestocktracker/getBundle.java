@@ -4,5 +4,5 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public interface getBundle {
-    public void getBundle(Intent intent);
+    public void getBundle(Bundle intent);
 }

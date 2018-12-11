@@ -23,4 +23,5 @@ public class SwipeAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 3;
     }
+    
 }

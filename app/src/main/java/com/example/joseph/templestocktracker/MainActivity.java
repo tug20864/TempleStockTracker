@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         listFragments.add(fragmentStockDetails);
 
         viewPager = (ViewPager)findViewById(R.id.view_pager);
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(2);
         swipeAdapter = new SwipeAdapter(getSupportFragmentManager(), listFragments);
         viewPager.setAdapter(swipeAdapter);
         viewPager.setCurrentItem(0);

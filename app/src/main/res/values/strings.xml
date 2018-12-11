@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TempleStockTracker</string>
+    <string name="addStockMsg">Please Add A Stock!</string>
+    <string name="StockList">Stock List</string>
+    <string name="Stock_Details">Stock Details</string>
+    <string name="Current_price">Current:</string>
+</resources>

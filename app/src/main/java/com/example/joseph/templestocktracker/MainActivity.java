@@ -1,6 +1,6 @@
 package com.example.joseph.templestocktracker;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,15 +38,25 @@ public class MainActivity extends AppCompatActivity {
     RequestQueue ExampleRequestQueue;
     SwipeAdapter swipeAdapter;
     ViewPager viewPager;
+    public static ArrayList<Fragment> listFragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        listFragments = new ArrayList<>();
+        NavigationPane navigationPane = new NavigationPane();
+        FragmentStockList fragmentStockList = new FragmentStockList();
+        FragmentStockDetails fragmentStockDetails = new FragmentStockDetails();
+
+        listFragments.add(navigationPane);
+        listFragments.add(fragmentStockList);
+        listFragments.add(fragmentStockDetails);
+
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(1);
-        swipeAdapter = new SwipeAdapter(getSupportFragmentManager());
+        swipeAdapter = new SwipeAdapter(getSupportFragmentManager(), listFragments);
         viewPager.setAdapter(swipeAdapter);
         viewPager.setCurrentItem(0);
 
@@ -182,19 +192,15 @@ RECEIVE DATA FROM FRAGMENT
         b.putString("currentPrice", currentPrice);
 
         //send data to details pane
-        //FragmentStockDetails frag = (FragmentStockDetails) swipeAdapter.getItem(2);
         //frag.setArguments(b);
 
-        //viewPager.setCurrentItem(2);
 
-        FragmentStockDetails frag = (FragmentStockDetails) swipeAdapter.getItem( 2 );
-
+        FragmentStockDetails frag = (FragmentStockDetails) swipeAdapter.getItem(2);
         frag.setArguments(b);
-
-        viewPager.notifyAll();
-        //call the fragment update method
-
-        frag.getBundle(b);
+        swipeAdapter.notifyDataSetChanged();
+        //viewPager.notifyAll();
+        frag.getBundle();
+        viewPager.setCurrentItem(2);
 
 
     }

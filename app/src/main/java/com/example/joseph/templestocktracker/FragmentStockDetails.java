@@ -25,9 +25,9 @@ public class FragmentStockDetails extends Fragment implements getBundle{
         final View view;
         view = inflater.inflate(R.layout.fragment_details, container, false);
 
-        companyName = (TextView) this.getView().findViewById(R.id.Details_companyName);
-        opening = (TextView) this.getView().findViewById(R.id.detailsOpening);
-        current = (TextView) this.getView().findViewById(R.id.detailsCurrent);
+        companyName = (TextView) view.findViewById(R.id.Details_companyName);
+        opening = (TextView) view.findViewById(R.id.detailsOpening);
+        current = (TextView) view.findViewById(R.id.detailsCurrent);
 
         return view;
 
@@ -35,15 +35,16 @@ public class FragmentStockDetails extends Fragment implements getBundle{
     }
 
     @Override
-    public void getBundle(Bundle b) {
+    public void getBundle() {
 
-        companyName.setText(b.getString("name"));
-        opening.setText(b.getString("opening"));
-        current.setText(b.getString("currentPrice"));
+        companyName.setText(getArguments().getString("name"));
+        opening.setText(getArguments().getString("opening"));
+        current.setText(getArguments().getString("currentPrice"));
         //load the web view
-        String symbol = b.getString("symbol");
+        String symbol = getArguments().getString("symbol");
 
-        WebView wv = getView().findViewById(R.id.webView);
-        wv.loadUrl(("https://macc.io/lab/cis3515/?symbol=<stock_symbol>" + symbol));
+        WebView wv = getActivity().findViewById(R.id.webView);
+        wv.getSettings().setJavaScriptEnabled(true);
+        wv.loadUrl(("https://macc.io/lab/cis3515/?symbol=" + symbol));
     }
 }

@@ -4,31 +4,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import java.util.ArrayList;
+
 public class SwipeAdapter extends FragmentStatePagerAdapter {
 
-    public SwipeAdapter (FragmentManager fm)
-    {
+    private ArrayList<Fragment> list;
+    public SwipeAdapter(FragmentManager fm, ArrayList<Fragment> list) {
         super(fm);
+        this.list = list;
     }
 
     @Override
-    public Fragment getItem(int i) {
-        //use if statement to determine what fragment to return
-        Fragment page = null;
-        if(i == 0) {
-            page = new NavigationPane();
-        }
-
-        if(i == 1){
-            page = new FragmentStockList();
-        }
-        if(i == 2)
-        {
-            page = new FragmentStockDetails();
-        }
-
-
-        return page;
+    public Fragment getItem(int position) {
+        return list.get(position);
     }
 
     @Override
